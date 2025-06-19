@@ -1,0 +1,7 @@
+- hosts: all
+  remote_user: ubuntu
+  tasks:
+  - name: "Copy hello_world!"
+    ansible.builtin.copy:
+      src: hello_world
+      dest: /home/ubuntu/hello_world

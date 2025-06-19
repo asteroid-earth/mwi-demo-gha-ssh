@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started.
+# It will take the following action whenever a push is made to the "main" branch.
+on:
+  push:
+    branches:
+      - main
+jobs:
+  demo:
+    permissions:
+      # The "id-token: write" permission is required or MWI will not be able to
+      # authenticate with the cluster.
+      id-token: write
+      contents: read
+    name: Run Ansible Playbook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Fetch Teleport binaries
+        uses: teleport-actions/setup@v1
+        with:
+          version: 17.5.2
+      - name: Fetch credentials using Machine & Workload Identity
+        id: auth
+        uses: teleport-actions/auth@v2
+        with:
+          proxy: mwidemo.cloud.gravitational.io:443
+          token: mwi-demo-gha-ssh
+      - name: Run Ansible Playbook
+        run: ansible-playbook playbook.yaml
