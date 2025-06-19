@@ -20,6 +20,10 @@ jobs:
         uses: teleport-actions/setup@v1
         with:
           version: 17.5.2
+      - name: Setup Python
+        uses: actions/setup-python@v5
+      - name: Install Ansible
+        run:  python -m pip install ansible
       - name: Fetch credentials using Machine & Workload Identity
         id: auth
         uses: teleport-actions/auth@v2
@@ -27,4 +31,6 @@ jobs:
           proxy: mwidemo.cloud.gravitational.io:443
           token: mwi-demo-gha-ssh
       - name: Run Ansible Playbook
+        env:
+          ANSIBLE_SSH_ARGS: "-F ${{ steps.auth.outputs.ssh-config }}"
         run: ansible-playbook playbook.yaml
