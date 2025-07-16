@@ -17,9 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Fetch Teleport binaries
-        uses: teleport-actions/setup@v1
+        uses: teleport-actions/setup@a820ebbf1bc1a496efca348ad21042d6e8df73a6
         with:
-          version: 17.5.2
+          version: auto
+          proxy: mwidemo.cloud.gravitational.io:443
       - name: Setup Python
         uses: actions/setup-python@v5
       - name: Install Ansible
